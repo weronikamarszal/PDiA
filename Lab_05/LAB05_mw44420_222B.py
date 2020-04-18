@@ -4,19 +4,19 @@ import scipy.sparse
 import math
 
 
-def unique(x):
-    x.sort()
-    result = []
-    n = len(x)
-    for i in range(n - 1):
-        if x[i] != x[i + 1]:
-            result.append(x[i])
-    result.append(x[n - 1])
-    return (result)
+# def unique(x):
+#     x.sort()
+#     result = []
+#     n = len(x)
+#     for i in range(n - 1):
+#         if x[i] != x[i + 1]:
+#             result.append(x[i])
+#     result.append(x[n - 1])
+#     return (result)
 
 
 def freq(x, prob):
-    xi = unique(x);
+    xi = np.unique(x);
     # n = len(x)
     p = []
     ni = pd.value_counts(x);
@@ -30,8 +30,8 @@ def freq(x, prob):
 
 
 def freq2(x, y, prob):
-    xi = unique(x);
-    yi = unique(y)
+    xi = np.unique(x);
+    yi = np.unique(y)
     xyi = []
     nx = len(xi);
     ny = len(yi);
@@ -129,23 +129,43 @@ y = [5, 5, 2, 4, 5, 9]
 # print(freq(x, prob = True))
 
 # zad2
-print(freq2(x, y, prob=True))
+# print(freq2(x, y, prob=True))
 
 # ZAD3
-hx = entropy(x);
-hy = entropy(y);
-hxy = entropyxy(x, y);
+# hx = entropy(x);
+# hy = entropy(y);
+# hxy = entropyxy(x, y);
 # print(hxy);
 # inf = informacjaWzajemna(x, y);
 # print(inf);
-print(entropiaWarunkowa(x,y));
-print(infogain(x,y));
+# print(entropiaWarunkowa(x,y));
+# print(infogain(x,y));
 #
 # # ZAD4
-data = pd.read_csv('zoo.csv');
+# data = pd.read_csv('zoo.csv');
+# print(infogain('type', 'animal')); # -0.27368437626202313
+# print(infogain('type', 'hair')); #-15.509775004326936
+# print(infogain('type', 'feathers')); #-8.0
+# print(infogain('type', 'eggs')); #-24.0
+# print(infogain('type', 'milk')); #-8.0
+# print(infogain('type', 'airborne')); #-8.0
+# print(infogain('type', 'aquatic'));
+# print(infogain('type', 'predator'));
+# print(infogain('type', 'toothed'));
+# print(infogain('type', 'backbone'));
+# print(infogain('type', 'breathes'));
+# print(infogain('type', 'venomous'));
+# print(infogain('type', 'fins'));
+# print(infogain('type', 'legs')); #-8.0
+# print(infogain('type', 'tail')); #-8.0
+# print(infogain('type', 'domestic')); # -24.0
+# print(infogain('type', 'catsize')); #-19.651484454403228
 
 
-
-
-from sklearn.datasets import fetch_rcv1
-
+### ZAD6
+# Błędy podczas wczytywania bazy
+# from sklearn.datasets import fetch_rcv1
+#
+# rcv1=fetch_rcv1()
+# X=rcv1["data"]
+# Y=rcv1.target[:,87]
