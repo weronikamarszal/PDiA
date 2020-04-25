@@ -1,6 +1,11 @@
 import pandas as pd
 import numpy as np
 import scipy.sparse
+from scipy.sparse import random
+from scipy.sparse import coo_matrix
+from scipy import sparse
+from scipy.sparse import csr_matrix
+from scipy.sparse import csc_matrix
 import math
 
 
@@ -86,6 +91,7 @@ def entropyxy(x, y):
     ent = -sum
     return ent;
 
+
 def funkcjaPomocnicza(x, y):
     xi, yi, xyi, pi = freq2(x, y, prob=True);
     sum=0;
@@ -125,45 +131,47 @@ def infogain(x,y):
 ######################
 x = [1, 1, 1, 2, 3, 4]
 y = [5, 5, 2, 4, 5, 9]
+
 # zad1
 # print(freq(x, prob = True))
 
 # zad2
-# print(freq2(x, y, prob=True))
+print(freq2(x, y, prob=False))
 
 # ZAD3
 # hx = entropy(x);
 # hy = entropy(y);
 # hxy = entropyxy(x, y);
 # print(hxy);
-# inf = informacjaWzajemna(x, y);
-# print(inf);
+inf = informacjaWzajemna(x, y);
+print(inf);
 # print(entropiaWarunkowa(x,y));
-# print(infogain(x,y));
+print(infogain(x,y));
 #
 # # ZAD4
 # data = pd.read_csv('zoo.csv');
-# print(infogain('type', 'animal')); # -0.27368437626202313
-# print(infogain('type', 'hair')); #-15.509775004326936
-# print(infogain('type', 'feathers')); #-8.0
-# print(infogain('type', 'eggs')); #-24.0
-# print(infogain('type', 'milk')); #-8.0
-# print(infogain('type', 'airborne')); #-8.0
-# print(infogain('type', 'aquatic'));
-# print(infogain('type', 'predator'));
-# print(infogain('type', 'toothed'));
-# print(infogain('type', 'backbone'));
-# print(infogain('type', 'breathes'));
-# print(infogain('type', 'venomous'));
-# print(infogain('type', 'fins'));
-# print(infogain('type', 'legs')); #-8.0
-# print(infogain('type', 'tail')); #-8.0
-# print(infogain('type', 'domestic')); # -24.0
-# print(infogain('type', 'catsize')); #-19.651484454403228
+# print(informacjaWzajemna('type', 'animal')); # -0.27368437626202313
+# print(informacjaWzajemna('type', 'hair')); #-15.509775004326936
+# print(informacjaWzajemna('type', 'feathers')); #-8.0
+# print(informacjaWzajemna('type', 'eggs')); #-24.0
+# print(informacjaWzajemna('type', 'milk')); #-8.0
+# print(informacjaWzajemna('type', 'airborne')); #-8.0
+# print(informacjaWzajemna('type', 'aquatic'));
+# print(informacjaWzajemna('type', 'predator'));
+# print(informacjaWzajemna('type', 'toothed'));
+# print(informacjaWzajemna('type', 'backbone'));
+# print(informacjaWzajemna('type', 'breathes'));
+# print(informacjaWzajemna('type', 'venomous'));
+# print(informacjaWzajemna('type', 'fins'));
+# print(informacjaWzajemna('type', 'legs')); #-8.0
+# print(informacjaWzajemna('type', 'tail')); #-8.0
+# print(informacjaWzajemna('type', 'domestic')); # -24.0
+print(informacjaWzajemna('type', 'catsize')); #-19.651484454403228
+
 
 
 ### ZAD6
-# Błędy podczas wczytywania bazy
+# Błędy podczas wczytywania bazy - MemoryError
 # from sklearn.datasets import fetch_rcv1
 #
 # rcv1=fetch_rcv1()

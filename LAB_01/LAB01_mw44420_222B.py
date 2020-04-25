@@ -198,6 +198,7 @@ import random
 # A=np.arange(24).reshape(4,6);
 # print(A);
 # yellow = as_strided(A[0][0:3], (2,3), A.strides);
+# print(yellow)
 # green = as_strided(A[0][3:], (2,3), A.strides);
 # blue = as_strided(A[2][0:3], (2,3), A.strides);
 # orange = as_strided(A[2][3:], (2,3), A.strides);
