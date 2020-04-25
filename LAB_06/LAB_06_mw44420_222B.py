@@ -29,54 +29,46 @@ data_3 = np.random.randn(200, 2) + center_3
 
 data = np.concatenate((data_1, data_2, data_3), axis=0)
 
-plt.scatter(data[:, 0], data[:, 1], s=7)
 
-
-# plt.show()
-# print(data);
 
 def kmeans(data, k):
-    startPoints = np.zeros((k, 2))
-    # print(startPoints)
-    newCenters = []
+    newCenters = np.zeros((k, 2))
+    oldCenters = np.zeros((k,2))
     wiersze = np.size(data, 0)
-    # print(wiersze)
+
     for i in range(k):
         x1 = np.random.randint(0, wiersze)
-        startPoints[i, :] = data[x1]
+        newCenters[i, :] = data[x1]
 
-
-     # print(startPoints)
-     # plt.scatter(data[:,0], data[:,1], s=7)
-     # plt.scatter(startPoints[:,0], startPoints[:,1], marker='*', c='g', s=150)
+    # plt.figure()
+    # plt.scatter(data[:,0], data[:,1], s=7)
+    # plt.scatter(newCenters[:,0], newCenters[:,1], marker='*', c='g', s=150)
     # plt.show()
 
     distances = np.zeros((wiersze, k));
 
-    while startPoints != newCenters:
+    while (np.array_equal(newCenters, oldCenters) == False):
+        oldCenters = newCenters;
 
         for i in range(len(data)):
             for j in range(k):
-                distances[i, j] = dist(data[i], startPoints[j])
-        print(data)
-        print(distances)
+                distances[i, j] = dist(data[i], newCenters[j])
 
         clusters = []
         for i in range(k):
             clusters.append([])
 
         for i in range(len(distances)):
-            min = np.min(distances[i, :])
             index_min = np.argmin(distances[i, :])
             clusters[index_min].append(data[i, :])
 
-        print(clusters)
-
         for i in range(k):
-            newCenters.append(np.mean(clusters[i], 0))
+            newCenters[i, :] = np.mean(clusters[i], 0)
 
-        if startPoints != newCenters:
-            startPoints = newCenters;
+    plt.figure()
+    plt.scatter(data[:, 0], data[:, 1], s=7)
+    plt.scatter(newCenters[:, 0], newCenters[:, 1], marker='*', c='g', s=150)
+    plt.show()
 
 
 
