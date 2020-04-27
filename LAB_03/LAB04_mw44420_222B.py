@@ -26,12 +26,12 @@ s, t = dyskretyzacja(10, 20)
 # print(s)
 # print(t)
 
-# plt.plot(t, s)
-# plt.show()
+plt.plot(t, s)
+plt.show()
 
-# s, t = dyskretyzacja(10, 21)
-# plt.plot(t, s)
-# plt.show()
+s, t = dyskretyzacja(10, 21)
+plt.plot(t, s)
+plt.show()
 
 # s, t = dyskretyzacja(10, 30)
 # plt.plot(t, s)
@@ -110,7 +110,7 @@ data = np.asarray(im)
 # print(im.ndim)
 
 # ZAD4
-# a) wyznaczanie jasnosci piksela
+## a) wyznaczanie jasnosci piksela
 # gray1 = np.max(data, axis=2) + np.min(data, axis=2) / 2
 # im = Image.fromarray(gray1)
 # if im != 'RGB':
@@ -124,7 +124,7 @@ data = np.asarray(im)
 #     im = im.convert('RGB')
 # im.save("gray2.png")
 
-# c) wyznaczanie luminacji piksela
+## c) wyznaczanie luminacji piksela
 # gray3 = (0.21 * data[:, :, 0] + 0.72 * data[:, :, 1] + 0.07 * data[:, :, 2])
 # im = Image.fromarray(gray3)
 # if im != 'RGB':
@@ -132,7 +132,7 @@ data = np.asarray(im)
 # x = im.save("gray3.png")
 
 
-# ZAD.5
+## ZAD.5
 # hist1=np.histogram(gray1)
 # plt.figure()
 # plt.hist(gray1)
