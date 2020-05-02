@@ -3,6 +3,8 @@ import pandas as pd
 import scipy
 from matplotlib import pyplot as plt
 import random
+
+from scipy.cluster.hierarchy import dendrogram
 from scipy.spatial import ConvexHull, convex_hull_plot_2d
 
 from sklearn import metrics
@@ -129,3 +131,9 @@ a.scatter(X_r[correct, 0], X_r[correct, 1], X_r[correct, 2], color='green')
 a.scatter(X_r[incorrect, 0], X_r[incorrect, 1], X_r[incorrect, 2], color='red')
 
 plt.show()
+
+### ZAD7
+Z = scipy.cluster.hierarchy.linkage(X_r, 'average')
+dn = dendrogram(Z)
+plt.show();
+
