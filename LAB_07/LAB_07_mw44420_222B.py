@@ -10,6 +10,7 @@ from scipy.spatial import ConvexHull, convex_hull_plot_2d
 
 from sklearn import metrics
 from sklearn import datasets
+from sklearn import mixture
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.decomposition import PCA
 
@@ -170,30 +171,40 @@ def find_perm(clusters, Y_real, Y_pred):
 # plt.show()
 
 # zad6
-pca = PCA(n_components=3)
-X_r = pca.fit_transform(X)
+# pca = PCA(n_components=3)
+# X_r = pca.fit_transform(X)
+#
+# mode = ['single', 'average', 'complete', 'ward']
+# Y_result = find_perm(3, Y, sklearn.cluster.KMeans(3).fit(X).labels_)
+# Y_result2 = sklearn.cluster.KMeans(3).fit(X).labels_
+#
+# colors = ['navy', 'turquoise', 'darkorange']
+#
+# fig = plt.figure()
+# a = fig.add_subplot(311, projection='3d')
+# for color, i in zip(colors, [0, 1, 2]):
+#     points = X_r[Y == i, :]
+#     a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
+#
+# a = fig.add_subplot(312, projection='3d')
+# for color, i in zip(colors, [0, 1, 2]):
+#     points = X_r[Y_result2 == i, :]
+#     a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
+#
+# a = fig.add_subplot(313, projection='3d')
+# correct = [Y[i] == Y_result[i] for i in range(len(Y))]
+# incorrect = np.invert(correct)
+# a.scatter(X_r[correct, 0], X_r[correct, 1], X_r[correct, 2], color='green')
+# a.scatter(X_r[incorrect, 0], X_r[incorrect, 1], X_r[incorrect, 2], color='red')
+#
+# plt.show()
 
-mode = ['single', 'average', 'complete', 'ward']
-Y_result = find_perm(3, Y, sklearn.cluster.KMeans(3).fit(X).labels_)
-Y_result2 = sklearn.cluster.KMeans(3).fit(X).labels_
+### zad 9
 
-colors = ['navy', 'turquoise', 'darkorange']
+data = pd.read_csv('zoo.csv')
+X_zoo = data.values[:, 1:16]
 
-fig = plt.figure()
-a = fig.add_subplot(311, projection='3d')
-for color, i in zip(colors, [0, 1, 2]):
-    points = X_r[Y == i, :]
-    a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
+Y_result = AgglomerativeClustering(linkage='ward').fit(X).labels_
 
-a = fig.add_subplot(312, projection='3d')
-for color, i in zip(colors, [0, 1, 2]):
-    points = X_r[Y_result2 == i, :]
-    a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
+print(Y_result)
 
-a = fig.add_subplot(313, projection='3d')
-correct = [Y[i] == Y_result[i] for i in range(len(Y))]
-incorrect = np.invert(correct)
-a.scatter(X_r[correct, 0], X_r[correct, 1], X_r[correct, 2], color='green')
-a.scatter(X_r[incorrect, 0], X_r[incorrect, 1], X_r[incorrect, 2], color='red')
-
-plt.show()
