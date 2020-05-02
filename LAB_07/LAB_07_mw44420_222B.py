@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import scipy
+import sklearn
 from matplotlib import pyplot as plt
 import random
 
@@ -16,10 +17,6 @@ from sklearn.decomposition import PCA
 iris = datasets.load_iris()
 X = iris.data
 Y = iris.target
-# print(X)
-# print(X.size)
-# print(Y)
-
 
 # zad2
 # metoda najblizszego sasiedztwa:
@@ -65,7 +62,7 @@ def find_perm(clusters, Y_real, Y_pred):
 # print(metrics.jaccard_score(Y, single.labels_, average=None));
 # average=None -> dla każdej klasy (klastru) jest liczone
 
-# zad5
+### zad5
 # pca = PCA(n_components=2)
 # X_r = pca.fit_transform(X)
 #
@@ -100,16 +97,85 @@ def find_perm(clusters, Y_real, Y_pred):
 # plt.show()
 
 # zad6
+# pca = PCA(n_components=3)
+# X_r = pca.fit_transform(X)
+#
+# mode = ['single', 'average', 'complete', 'ward']
+# Y_result = find_perm(2, Y, AgglomerativeClustering(linkage=mode[0]).fit(X).labels_)
+# Y_result2 = AgglomerativeClustering(linkage=mode[2]).fit(X).labels_
+#
+# # fig = plt.figure()
+# # fig.add_subplot(3, 1, 1, projection='3d')
+# # plt.scatter(X_r[:, 0], X_r[:, 1], X_r[:, 2], color='blue')
+#
+# colors = ['navy', 'turquoise', 'darkorange']
+#
+# fig = plt.figure()
+# a = fig.add_subplot(311, projection='3d')
+# for color, i in zip(colors, [0, 1, 2]):
+#     points = X_r[Y == i, :]
+#     a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
+#
+# a = fig.add_subplot(312, projection='3d')
+# for color, i in zip(colors, [0, 1, 2]):
+#     points = X_r[Y_result2 == i, :]
+#     a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
+#
+# a = fig.add_subplot(313, projection='3d')
+# correct = [Y[i] == Y_result2[i] for i in range(len(Y))]
+# incorrect = np.invert(correct)
+# a.scatter(X_r[correct, 0], X_r[correct, 1], X_r[correct, 2], color='green')
+# a.scatter(X_r[incorrect, 0], X_r[incorrect, 1], X_r[incorrect, 2], color='red')
+#
+# plt.show()
+#
+# ### ZAD7
+# Z = scipy.cluster.hierarchy.linkage(X_r, 'average')
+# dn = dendrogram(Z)
+# plt.show();
+
+### ZAD8
+### k-means:
+# pca = PCA(n_components=2)
+# X_r = pca.fit_transform(X)
+#
+# mode = ['single', 'average', 'complete', 'ward']
+# Y_resul = find_perm(3, Y, sklearn.cluster.KMeans(3).fit(X).labels_)
+# Y_result = sklearn.cluster.KMeans(3).fit(X).labels_
+#
+# colors = ['navy', 'turquoise', 'darkorange']
+#
+# plt.figure()
+# plt.subplot(3, 1, 1)
+# for color, i in zip(colors, [0, 1, 2]):
+#     points = X_r[Y == i, :]
+#     plt.scatter(points[:, 0], points[:, 1], color=color)
+#     hull = ConvexHull(points)
+#     plt.plot(points[hull.vertices, 0], points[hull.vertices, 1], color=color)
+#
+# plt.subplot(3, 1, 2)
+# for color, i in zip(colors, [0, 1, 2]):
+#     points = X_r[Y_result == i, :]
+#     plt.scatter(points[:, 0], points[:, 1], color=color)
+#     if len(points):
+#         hull = ConvexHull(points)
+#         plt.plot(points[hull.vertices, 0], points[hull.vertices, 1], color=color)
+#
+# plt.subplot(3, 1, 3)
+# correct = [Y[i] == Y_result[i] for i in range(len(Y))]
+# incorrect = np.invert(correct)
+# plt.scatter(X_r[correct, 0], X_r[correct, 1], color='green')
+# plt.scatter(X_r[incorrect, 0], X_r[incorrect, 1], color='red')
+#
+# plt.show()
+
+# zad6
 pca = PCA(n_components=3)
 X_r = pca.fit_transform(X)
 
 mode = ['single', 'average', 'complete', 'ward']
-Y_result = find_perm(2, Y, AgglomerativeClustering(linkage=mode[0]).fit(X).labels_)
-Y_result2 = AgglomerativeClustering(linkage=mode[2]).fit(X).labels_
-
-# fig = plt.figure()
-# fig.add_subplot(3, 1, 1, projection='3d')
-# plt.scatter(X_r[:, 0], X_r[:, 1], X_r[:, 2], color='blue')
+Y_result = find_perm(3, Y, sklearn.cluster.KMeans(3).fit(X).labels_)
+Y_result2 = sklearn.cluster.KMeans(3).fit(X).labels_
 
 colors = ['navy', 'turquoise', 'darkorange']
 
@@ -125,15 +191,9 @@ for color, i in zip(colors, [0, 1, 2]):
     a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
 
 a = fig.add_subplot(313, projection='3d')
-correct = [Y[i] == Y_result2[i] for i in range(len(Y))]
+correct = [Y[i] == Y_result[i] for i in range(len(Y))]
 incorrect = np.invert(correct)
 a.scatter(X_r[correct, 0], X_r[correct, 1], X_r[correct, 2], color='green')
 a.scatter(X_r[incorrect, 0], X_r[incorrect, 1], X_r[incorrect, 2], color='red')
 
 plt.show()
-
-### ZAD7
-Z = scipy.cluster.hierarchy.linkage(X_r, 'average')
-dn = dendrogram(Z)
-plt.show();
-
