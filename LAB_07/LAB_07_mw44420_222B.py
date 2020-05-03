@@ -1,10 +1,12 @@
+import cv2
 import numpy as np
 import pandas as pd
 import scipy
 import sklearn
 from matplotlib import pyplot as plt
 import random
-
+# import Image
+from PIL import Image
 from scipy.cluster.hierarchy import dendrogram
 from scipy.spatial import ConvexHull, convex_hull_plot_2d
 
@@ -200,11 +202,37 @@ def find_perm(clusters, Y_real, Y_pred):
 # plt.show()
 
 ### zad 9
+#
+# data = pd.read_csv('zoo.csv')
+# X_zoo = data.values[:, 1:16]
+#
+# Y_result = AgglomerativeClustering(linkage='ward').fit(X).labels_
+#
+# print(Y_result)
 
-data = pd.read_csv('zoo.csv')
-X_zoo = data.values[:, 1:16]
 
-Y_result = AgglomerativeClustering(linkage='ward').fit(X).labels_
+################# 3. KWANTYZACJA ###############
 
-print(Y_result)
+### ZAD1
+###rozmiar: 640x427
+# im = Image.open("zdj.jpg")
+
+# print(im.mode)
+
+img = cv2.imread('zdj.jpg')
+# print(img)
+
+###ZAD2
+print(img.shape);
+w, k, col = img.shape;
+
+tab = np.zeros((w*k, 3));
+k = 0;
+for i in range(w):
+    for j in range(k):
+        tab[k, :] = (img[i,j,:])
+        k=k+1;
+
+print(tab)
+
 
