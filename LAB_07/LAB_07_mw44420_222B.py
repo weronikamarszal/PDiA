@@ -9,12 +9,12 @@ import random
 from PIL import Image
 from scipy.cluster.hierarchy import dendrogram
 from scipy.spatial import ConvexHull, convex_hull_plot_2d
-
 from sklearn import metrics
 from sklearn import datasets
 from sklearn import mixture
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.decomposition import PCA
+# from sklearn.mixture import GMM
 
 # zad1
 iris = datasets.load_iris()
@@ -219,20 +219,54 @@ def find_perm(clusters, Y_real, Y_pred):
 
 # print(im.mode)
 
-img = cv2.imread('zdj.jpg')
+img = cv2.imread('zdj1.jpg')
 # print(img)
 
 ###ZAD2
-print(img.shape);
+# print(img.shape);
 w, k, col = img.shape;
 
 tab = np.zeros((w*k, 3));
-k = 0;
+n = 0;
+# print(w,k,col);
 for i in range(w):
     for j in range(k):
-        tab[k, :] = (img[i,j,:])
-        k=k+1;
+        tab[n, :] = (img[i,j,:])
+        n=n+1;
 
-print(tab)
+# print(tab)
+
+### ZAD3
+
+###kmeans:
+ile_klastrow = 8
+k_means = sklearn.cluster.KMeans(ile_klastrow).fit(tab)
+kmeans_labels = k_means.labels_
+# print(kmeans_labels)
+centers = k_means.cluster_centers_
+# print(centers)
+
+# print(kmeans_labels.shape)
+# print(tab.shape)
+
+###gmm:
+# gmm = sklearn.mixture.GaussianMixture(n_components=ile_klastrow).fit(tab)
+# print(gmm.predict(tab))
+# print(gmm.means_)
+
+###
+# ...
+
+
+
+
+
+### ZAD4
+img_quant = np.zeros(tab.shape)
+for i in range(len(kmeans_labels)):
+    img_quant[i,:] = centers[kmeans_labels[i]]
+
+# print(img_quant)
+
 
 
