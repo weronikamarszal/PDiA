@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 import random
 # import Image
 from PIL import Image
+from PIL import ImageOps
 from scipy.cluster.hierarchy import dendrogram
 from scipy.spatial import ConvexHull, convex_hull_plot_2d
 from sklearn import metrics
@@ -163,7 +164,9 @@ def find_perm(clusters, Y_real, Y_pred):
 #     if len(points):
 #         hull = ConvexHull(points)
 #         plt.plot(points[hull.vertices, 0], points[hull.vertices, 1], color=color)
-#
+
+# simplices zamiast vertices
+
 # plt.subplot(3, 1, 3)
 # correct = [Y[i] == Y_result[i] for i in range(len(Y))]
 # incorrect = np.invert(correct)
@@ -219,19 +222,18 @@ def find_perm(clusters, Y_real, Y_pred):
 
 # print(im.mode)
 
-img = cv2.imread('zdj1.jpg')
-# print(img)
+img = cv2.imread('zdj1.JPG')
 
 ###ZAD2
 # print(img.shape);
 w, k, col = img.shape;
 
-tab = np.zeros((w*k, 3));
+tab = np.zeros((w*k, 3), int);
 n = 0;
 # print(w,k,col);
 for i in range(w):
     for j in range(k):
-        tab[n, :] = (img[i,j,:])
+        tab[n, :] = img[i,j,:]
         n=n+1;
 
 # print(tab)
@@ -243,19 +245,22 @@ ile_klastrow = 8
 k_means = sklearn.cluster.KMeans(ile_klastrow).fit(tab)
 kmeans_labels = k_means.labels_
 # print(kmeans_labels)
-centers = k_means.cluster_centers_
-# print(centers)
+kmeans_centres = k_means.cluster_centers_
+# print(kmeans_centres)
 
 # print(kmeans_labels.shape)
 # print(tab.shape)
 
 ###gmm:
-# gmm = sklearn.mixture.GaussianMixture(n_components=ile_klastrow).fit(tab)
-# print(gmm.predict(tab))
-# print(gmm.means_)
+gmm = sklearn.mixture.GaussianMixture(n_components=ile_klastrow).fit(tab)
+gmm_labels = gmm.predict(tab)
+gmm_centres = gmm.means_
+# print(gmm_labels)
+# print(gmm_centres)
 
 ###
 # ...
+# ward = AgglomerativeClustering(n_clusters=ile_klastrow, linkage='ward').fit(tab)
 
 
 
@@ -264,9 +269,63 @@ centers = k_means.cluster_centers_
 ### ZAD4
 img_quant = np.zeros(tab.shape)
 for i in range(len(kmeans_labels)):
-    img_quant[i,:] = centers[kmeans_labels[i]]
-
+    img_quant[i,:] = kmeans_centres[kmeans_labels[i]]
 # print(img_quant)
 
+
+# img_quant_gmm = np.zeros(tab.shape)
+# for i in range(len(gmm_labels)):
+#     img_quant_gmm[i,:] = gmm_centres[gmm_labels[i]]
+
+###ZAD5
+
+n = 0;
+tab1 = np.zeros((w, k , col), dtype=np.uint8)
+for i in range(w):
+    for j in range(k):
+        tab1[i,j,:] = img_quant[n, :]
+        n=n+1;
+
+
+# tab_gmm = np.zeros((w, k , col), dtype=np.uint8)
+# for i in range(w):
+#     for j in range(k):
+#         tab_gmm[i,j,:] = img_quant_gmm[n, :]
+#         n=n+1;
+
+
+###ZAD6
+
+# print(tab1)
+# plt.subplot(121)
+# plt.imshow(img)
+# plt.subplot(122)
+# plt.imshow(tab1)
+# # plt.show()
+
+
+### ZAD7
+kmeans_blad = np.zeros((w, k))
+for i in range (w):
+    for j in range (k):
+        kmeans_blad[i,j] = metrics.mean_squared_error(img[i,j], tab1[i,j])
+
+plt.imshow(kmeans_blad)
+plt.title("Bład sredniokwadratowy")
+plt.show()
+
+
+
+# gmm_blad = np.zeros((w, k))
+# for i in range (w):
+#     for j in range (k):
+#         gmm_blad[i,j] = metrics.mean_squared_error(img[i,j], tab_gmm[i,j])
+
+# plt.imshow(gmm_blad)
+# plt.title("Bład sredniokwadratowy")
+# plt.show()
+
+
+###ZAD8
 
 
