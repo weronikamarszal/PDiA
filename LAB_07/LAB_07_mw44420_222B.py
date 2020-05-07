@@ -305,14 +305,14 @@ for i in range(w):
 
 
 ### ZAD7
-kmeans_blad = np.zeros((w, k))
-for i in range (w):
-    for j in range (k):
-        kmeans_blad[i,j] = metrics.mean_squared_error(img[i,j], tab1[i,j])
-
-plt.imshow(kmeans_blad)
-plt.title("Bład sredniokwadratowy")
-plt.show()
+# kmeans_blad = np.zeros((w, k))
+# for i in range (w):
+#     for j in range (k):
+#         kmeans_blad[i,j] = metrics.mean_squared_error(img[i,j], tab1[i,j])
+#
+# plt.imshow(kmeans_blad)
+# plt.title("Bład sredniokwadratowy")
+# plt.show()
 
 
 
@@ -327,5 +327,19 @@ plt.show()
 
 
 ###ZAD8
+n = 2;
+zad8_wektoryzacja = img.reshape((int)(w*(k/(2**n))),col*(2**n))
+kmeans_zad8 = sklearn.cluster.KMeans(n_clusters = ile_klastrow).fit(zad8_wektoryzacja)
+labels_kmeans_zad8 = kmeans_zad8.labels_
+centers_kmeans_zad8 = kmeans_zad8.cluster_centers_
+
+quant_kmeans_zad8 = np.copy(zad8_wektoryzacja)
+for i in range(len(zad8_wektoryzacja)):
+    quant_kmeans_zad8[i] = centers_kmeans_zad8[labels_kmeans_zad8[i]]
+
+tab1 = quant_kmeans_zad8.reshape(w, k, col)
+plt.imshow(tab1)
+plt.show()
 
 
+###ZAD9
