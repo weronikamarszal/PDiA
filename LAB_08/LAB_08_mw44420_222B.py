@@ -1,17 +1,17 @@
-# import pandas as pd
-# import numpy as np
-# import scipy.sparse
-# from scipy.sparse import random
-# from scipy.sparse import coo_matrix
-# from scipy import sparse
-# from scipy.sparse import csr_matrix
-# from scipy.sparse import csc_matrix
-# import math
-# import numpy.linalg as npl
-# from sklearn import datasets
-# from sklearn.decomposition import PCA
-# import matplotlib.pyplot as plt
-# from sklearn.preprocessing import StandardScaler
+import pandas as pd
+import numpy as np
+import scipy.sparse
+from scipy.sparse import random
+from scipy.sparse import coo_matrix
+from scipy import sparse
+from scipy.sparse import csr_matrix
+from scipy.sparse import csc_matrix
+import math
+import numpy.linalg as npl
+from sklearn import datasets
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
 #
 # X = np.array([[2,1,3], [3,0,2], [1,3,1], [4,4,0]])
 #
@@ -66,99 +66,6 @@
 #
 # # pca = PCA(n_components=2)
 # # X_r = pca.fit(iris.data).transform(iris.data)
-#
-# # print(X_r)
-#
-#
-#
-# ##### ZAD1
-# ###A
-# X = np.dot(np.random.rand(2, 2), np.random.rand(2, 100))
-# df=pd.DataFrame(X.T, columns=['x', 'y'])
-#
-# ###B
-# plt.figure()
-# plt.scatter(X[0], X[1])
-# plt.title("losowe punkty")
-# plt.show()
-#
-# ###C
-# def wiPCA(X, K):
-#     X_cov = np.cov(X, rowvar = False)
-#
-#     #Wyliczenie wartości własnych i wektorów własnych
-#     eigVal, eigVec = np.linalg.eigh(X_cov)
-#
-#     index = np.argsort(eigVal)[::-1]
-#
-#     eigVec = eigVec[:, index]
-#     eigVec = eigVec[:,0:K]
-#     eigVal = eigVal[index]
-#
-#     Y = np.dot(X, eigVec)
-#
-#     # Wektor średni
-#     X_sr = np.mean(X, axis=0)
-#     X = X - X_sr
-#
-#     Y_inv = np.dot(Y, np.transpose(eigVec)) + X_sr
-#
-#     return Y,  eigVal, eigVec, X_sr,
-#
-# [Y, val, vec, m]  = wiPCA(iris.data, 2)
-#
-#
-# X_std=StandardScaler().fit_transform(df)
-# features = X_std.T
-# covariance_matrix = np.cov(features)
-# eigVal, eigVec = np.linalg.eig(covariance_matrix)
-# projected_X = X_std.dot(eigVec.T[0])
-# print(projected_X)
-# result = pd.DataFrame(projected_X, columns=['x'])
-# result['y']=0.0
-# print(result)
-#
-# plt.figure()
-# plt.scatter(result['x'], result['y'])
-# plt.title("PCA Random 200 points")
-#
-#
-#
-#
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
-#
-#
-# plt.figure()
-# names=iris.target_names
-# y=iris.target
-# for c, i, name in zip("rgb", [0,1,2], names):
-#     plt.scatter(Y[y==i,0],Y[y==i,1], c=c, label=name)
-# plt.legend()
-# plt.title("Analiza głównych składowych dla zbioru iris")
-# plt.show()
-
-
-import numpy as np
-from matplotlib import pyplot as plt
-from sklearn import datasets
-from sklearn.decomposition import PCA
 
 ### ZADANIE 1.
 ### A
