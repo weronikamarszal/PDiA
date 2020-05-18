@@ -70,6 +70,7 @@ def kmeans(data, k):
     plt.scatter(newCenters[:, 0], newCenters[:, 1], marker='*', c='g', s=150)
     plt.show()
 
+    
 
 
 kmeans(data, 3);
