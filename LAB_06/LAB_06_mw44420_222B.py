@@ -3,8 +3,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import random
 
-from sklearn import metrics
-
+from sklearn import metrics, datasets
 
 # def distp(X, C):
 #    return np.sqrt(np.add.outer(np.sum(X*X, axis=1),
@@ -13,23 +12,30 @@ from sklearn import metrics
 
 # def distm(X, C, V):
 #     odl_mah = metrics.pairwise.pairwise_distances(X, C, metric='mahalanobis')
+from sklearn.decomposition import PCA
+
 
 def dist(P1, P2):
     return np.sqrt(((P1[0] - P2[0]) ** 2) + (P1[1] - P2[1]) ** 2)
 
 
-center_1 = np.array([1, 1])
-center_2 = np.array([5, 5])
-center_3 = np.array([8, 1])
+# center_1 = np.array([1, 1])
+# center_2 = np.array([5, 5])
+# center_3 = np.array([8, 1])
+#
+# # Generate random data and center it to the three centers
+# data_1 = np.random.randn(200, 2) + center_1
+# data_2 = np.random.randn(200, 2) + center_2
+# data_3 = np.random.randn(200, 2) + center_3
+#
+# data = np.concatenate((data_1, data_2, data_3), axis=0)
 
-# Generate random data and center it to the three centers
-data_1 = np.random.randn(200, 2) + center_1
-data_2 = np.random.randn(200, 2) + center_2
-data_3 = np.random.randn(200, 2) + center_3
-
-data = np.concatenate((data_1, data_2, data_3), axis=0)
-
-
+iris = datasets.load_iris()
+X = iris.data
+Y = iris.target
+w, k = X.shape
+pca = PCA(n_components=2);
+X = pca.fit_transform(X)
 
 def kmeans(data, k):
     newCenters = np.zeros((k, 2))
@@ -54,23 +60,30 @@ def kmeans(data, k):
             for j in range(k):
                 distances[i, j] = dist(data[i], newCenters[j])
 
+        clusterForColoring = np.zeros(wiersze)
         clusters = []
         for i in range(k):
             clusters.append([])
 
+
         for i in range(len(distances)):
             index_min = np.argmin(distances[i, :])
             clusters[index_min].append(data[i, :])
+            clusterForColoring[i] = index_min;
 
         for i in range(k):
             newCenters[i, :] = np.mean(clusters[i], 0)
 
-    plt.figure()
-    plt.scatter(data[:, 0], data[:, 1], s=7)
-    plt.scatter(newCenters[:, 0], newCenters[:, 1], marker='*', c='g', s=150)
-    plt.show()
 
-    
+    return clusterForColoring, newCenters;
+
+cl, cent = kmeans(X, 3);
+
+plt.figure()
+plt.scatter(X[:, 0], X[:, 1], c=cl)
+plt.scatter(cent[:, 0], cent[:, 1], marker='*', c='g', s=150)
+plt.show()
 
 
-kmeans(data, 3);
+
+
