@@ -4,15 +4,69 @@ from matplotlib import pyplot as plt
 import random
 
 from sklearn import metrics, datasets
-
-# def distp(X, C):
-#    return np.sqrt(np.add.outer(np.sum(X*X, axis=1),
-#                                np.sum(C*C,axis=1)) - 2 * X.dot(C.T));
-
-
-# def distm(X, C, V):
-#     odl_mah = metrics.pairwise.pairwise_distances(X, C, metric='mahalanobis')
 from sklearn.decomposition import PCA
+
+
+def kmeans(data_, k):
+    newCenters = np.zeros((k, 2))
+    oldCenters = np.zeros((k,2))
+    wiersze = np.size(data_, 0)
+
+    for i in range(k):
+        x1 = np.random.randint(0, wiersze)
+        newCenters[i, :] = data_[x1]
+
+    distances = np.zeros((wiersze, k));
+    leastDistance = np.zeros((wiersze, 1));
+
+    while (np.array_equal(newCenters, oldCenters) == False):
+        oldCenters = newCenters;
+
+        for i in range(len(data_)):
+            for j in range(k):
+                distances[i, j] = dist(data_[i], newCenters[j])
+
+        clusterForColoring = np.zeros(wiersze)
+        clusters = []
+        for i in range(k):
+            clusters.append([])
+
+
+        for i in range(len(distances)):
+            index_min = np.argmin(distances[i, :])
+            leastDistance[i] = distances[i, index_min]
+            clusters[index_min].append(data_[i, :])
+            clusterForColoring[i] = index_min;
+
+        for i in range(k):
+            newCenters[i, :] = np.mean(clusters[i], 0)
+
+        distanceSum = leastDistance.sum()
+
+
+    return clusterForColoring, newCenters, distanceSum;
+
+def kmeansBest(data__, k):
+    tries = 10;
+    distMin = 0;
+    distances = np.zeros((tries,1));
+    for i in range(tries):
+        cl, cn, dist = kmeans(data__, k)
+        distances[i] = dist;
+        print(i)
+        if ((dist < distMin) or distMin==0):
+            distMin = dist;
+            clMin = cl;
+            cnMin = cn;
+
+    return clMin, cnMin, distances;
+
+data = pd.read_csv('autos.csv');
+data = pd.get_dummies(data).to_numpy();
+data = data[~np.isnan(data).any(axis=1)]
+pca = PCA(n_components=2)
+data = pca.fit_transform(data)
+# print(data)
 
 
 def dist(P1, P2):
@@ -36,48 +90,17 @@ Y = iris.target
 w, k = X.shape
 pca = PCA(n_components=2);
 X = pca.fit_transform(X)
-
-def kmeans(data, k):
-    newCenters = np.zeros((k, 2))
-    oldCenters = np.zeros((k,2))
-    wiersze = np.size(data, 0)
-
-    for i in range(k):
-        x1 = np.random.randint(0, wiersze)
-        newCenters[i, :] = data[x1]
-
-    # plt.figure()
-    # plt.scatter(data[:,0], data[:,1], s=7)
-    # plt.scatter(newCenters[:,0], newCenters[:,1], marker='*', c='g', s=150)
-    # plt.show()
-
-    distances = np.zeros((wiersze, k));
-
-    while (np.array_equal(newCenters, oldCenters) == False):
-        oldCenters = newCenters;
-
-        for i in range(len(data)):
-            for j in range(k):
-                distances[i, j] = dist(data[i], newCenters[j])
-
-        clusterForColoring = np.zeros(wiersze)
-        clusters = []
-        for i in range(k):
-            clusters.append([])
+data = X
 
 
-        for i in range(len(distances)):
-            index_min = np.argmin(distances[i, :])
-            clusters[index_min].append(data[i, :])
-            clusterForColoring[i] = index_min;
 
-        for i in range(k):
-            newCenters[i, :] = np.mean(clusters[i], 0)
+cl, cent, distances = kmeansBest(data, 3);
 
+print(distances);
 
-    return clusterForColoring, newCenters;
-
-cl, cent = kmeans(X, 3);
+plt.figure()
+plt.plot(distances.transpose()[0,:])
+plt.show()
 
 plt.figure()
 plt.scatter(X[:, 0], X[:, 1], c=cl)

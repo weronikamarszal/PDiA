@@ -13,59 +13,6 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 #
-# X = np.array([[2,1,3], [3,0,2], [1,3,1], [4,4,0]])
-#
-# def wiPCA(X):
-#     # X = np.transpose(X)
-#     # print(X)
-#     P=np.size(X, 0)
-#     # print(P)
-#
-#     X_transp = np.transpose(X)
-#     # print(X_transp)
-#
-#     # macierz korelacji:
-#     R =(np.dot( X_transp, X)) / P;
-#     # print(R)
-#
-#     D,V =  npl.eig(R)
-#     # print("V: ")
-#     # print(V)
-#     # print("D: ")
-#     # print(D)
-#     # print("")
-#     D_diag = np.diag(D);
-#     D_transp = D.transpose()
-#     print()
-#
-#     d = np.sort(D)[::-1];
-#     # print(d)
-#     I = np.argsort(D)[::-1];
-#     # print(I)
-#
-#     D_diag = np.diag(d);
-#     # print(D_diag)
-#
-#     V_sorted = V[:, I];
-#     # print(V_sorted)
-#
-#     K = 2; #ile wymiarow
-#
-#
-#     W = np.transpose(V_sorted[:, 0:K])
-#     # print(W)
-#     # print(X)
-#     X=np.transpose(X)
-#     Y = np.dot(W,X_transp);
-#     print(Y.shape)
-#     # print(Y)
-#
-#     return Y
-#
-# iris = datasets.load_iris()
-#
-# # pca = PCA(n_components=2)
-# # X_r = pca.fit(iris.data).transform(iris.data)
 
 ### ZADANIE 1.
 ### A

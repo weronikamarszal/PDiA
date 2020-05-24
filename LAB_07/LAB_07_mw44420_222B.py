@@ -24,16 +24,16 @@ Y = iris.target
 
 # zad2
 # metoda najblizszego sasiedztwa:
-single = AgglomerativeClustering(linkage='single')
+single = AgglomerativeClustering(linkage='single', n_clusters=3)
 single.fit(X);
 # metoda srednich połaczen:
-av = AgglomerativeClustering(linkage='average')
+av = AgglomerativeClustering(linkage='average', n_clusters=3)
 av.fit(X);
 # metoda najdalszych połaczen:
-complete = AgglomerativeClustering(linkage='complete')
+complete = AgglomerativeClustering(linkage='complete', n_clusters=3)
 complete.fit(X);
 # metoda Warda:
-ward = AgglomerativeClustering(linkage='ward')
+ward = AgglomerativeClustering(linkage='ward', n_clusters=3)
 ward.fit(X);
 
 
@@ -64,79 +64,79 @@ def find_perm(clusters, Y_real, Y_pred):
 # jako iloraz mocy części wspólnej zbiorów i mocy sumy tych zbiorów
 
 # print(metrics.jaccard_score(Y, single.labels_, average=None));
-# average=None -> dla każdej klasy (klastru) jest liczone
+### average=None -> dla każdej klasy (klastru) jest liczone
 
 ### zad5
-# pca = PCA(n_components=2)
-# X_r = pca.fit_transform(X)
-#
-# mode = ['single', 'average', 'complete', 'ward']
-# Y_result = find_perm(2, Y, AgglomerativeClustering(linkage=mode[0]).fit(X).labels_)
-# Y_result2 = AgglomerativeClustering(linkage=mode[2]).fit(X).labels_
-#
-# colors = ['navy', 'turquoise', 'darkorange']
-#
-# plt.figure()
-# plt.subplot(3, 1, 1)
-# for color, i in zip(colors, [0, 1, 2]):
-#     points = X_r[Y == i, :]
-#     plt.scatter(points[:, 0], points[:, 1], color=color)
-#     hull = ConvexHull(points)
-#     plt.plot(points[hull.vertices, 0], points[hull.vertices, 1], color=color)
-#
-# plt.subplot(3, 1, 2)
-# for color, i in zip(colors, [0, 1, 2]):
-#     points = X_r[Y_result2 == i, :]
-#     plt.scatter(points[:, 0], points[:, 1], color=color)
-#     if len(points):
-#         hull = ConvexHull(points)
-#         plt.plot(points[hull.vertices, 0], points[hull.vertices, 1], color=color)
-#
-# plt.subplot(3, 1, 3)
-# correct = [Y[i] == Y_result2[i] for i in range(len(Y))]
-# incorrect = np.invert(correct)
-# plt.scatter(X_r[correct, 0], X_r[correct, 1], color='green')
-# plt.scatter(X_r[incorrect, 0], X_r[incorrect, 1], color='red')
+pca = PCA(n_components=2)
+X_r = pca.fit_transform(X)
 
-# plt.show()
+mode = ['single', 'average', 'complete', 'ward']
+Y_result = find_perm(3, Y, AgglomerativeClustering(linkage=mode[0], n_clusters=3).fit(X).labels_)
+Y_result2 = AgglomerativeClustering(linkage=mode[2], n_clusters=3).fit(X).labels_
+
+colors = ['navy', 'turquoise', 'darkorange']
+
+plt.figure()
+plt.subplot(3, 1, 1)
+for color, i in zip(colors, [0, 1, 2]):
+    points = X_r[Y == i, :]
+    plt.scatter(points[:, 0], points[:, 1], color=color)
+    hull = ConvexHull(points)
+    plt.plot(points[hull.vertices, 0], points[hull.vertices, 1], color=color)
+
+plt.subplot(3, 1, 2)
+for color, i in zip(colors, [0, 1, 2]):
+    points = X_r[Y_result2 == i, :]
+    plt.scatter(points[:, 0], points[:, 1], color=color)
+    if len(points):
+        hull = ConvexHull(points)
+        plt.plot(points[hull.vertices, 0], points[hull.vertices, 1], color=color)
+
+plt.subplot(3, 1, 3)
+correct = [Y[i] == Y_result2[i] for i in range(len(Y))]
+incorrect = np.invert(correct)
+plt.scatter(X_r[correct, 0], X_r[correct, 1], color='green')
+plt.scatter(X_r[incorrect, 0], X_r[incorrect, 1], color='red')
+
+plt.show()
 
 # zad6
-# pca = PCA(n_components=3)
-# X_r = pca.fit_transform(X)
-#
-# mode = ['single', 'average', 'complete', 'ward']
-# Y_result = find_perm(2, Y, AgglomerativeClustering(linkage=mode[0]).fit(X).labels_)
-# Y_result2 = AgglomerativeClustering(linkage=mode[2]).fit(X).labels_
-#
-# # fig = plt.figure()
-# # fig.add_subplot(3, 1, 1, projection='3d')
-# # plt.scatter(X_r[:, 0], X_r[:, 1], X_r[:, 2], color='blue')
-#
-# colors = ['navy', 'turquoise', 'darkorange']
-#
+pca = PCA(n_components=3)
+X_r = pca.fit_transform(X)
+
+mode = ['single', 'average', 'complete', 'ward']
+Y_result = find_perm(2, Y, AgglomerativeClustering(linkage=mode[0]).fit(X).labels_)
+Y_result2 = AgglomerativeClustering(linkage=mode[2]).fit(X).labels_
+
 # fig = plt.figure()
-# a = fig.add_subplot(311, projection='3d')
-# for color, i in zip(colors, [0, 1, 2]):
-#     points = X_r[Y == i, :]
-#     a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
-#
-# a = fig.add_subplot(312, projection='3d')
-# for color, i in zip(colors, [0, 1, 2]):
-#     points = X_r[Y_result2 == i, :]
-#     a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
-#
-# a = fig.add_subplot(313, projection='3d')
-# correct = [Y[i] == Y_result2[i] for i in range(len(Y))]
-# incorrect = np.invert(correct)
-# a.scatter(X_r[correct, 0], X_r[correct, 1], X_r[correct, 2], color='green')
-# a.scatter(X_r[incorrect, 0], X_r[incorrect, 1], X_r[incorrect, 2], color='red')
-#
-# plt.show()
+# fig.add_subplot(3, 1, 1, projection='3d')
+# plt.scatter(X_r[:, 0], X_r[:, 1], X_r[:, 2], color='blue')
+
+colors = ['navy', 'turquoise', 'darkorange']
+
+fig = plt.figure()
+a = fig.add_subplot(311, projection='3d')
+for color, i in zip(colors, [0, 1, 2]):
+    points = X_r[Y == i, :]
+    a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
+
+a = fig.add_subplot(312, projection='3d')
+for color, i in zip(colors, [0, 1, 2]):
+    points = X_r[Y_result2 == i, :]
+    a.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
+
+a = fig.add_subplot(313, projection='3d')
+correct = [Y[i] == Y_result2[i] for i in range(len(Y))]
+incorrect = np.invert(correct)
+a.scatter(X_r[correct, 0], X_r[correct, 1], X_r[correct, 2], color='green')
+a.scatter(X_r[incorrect, 0], X_r[incorrect, 1], X_r[incorrect, 2], color='red')
+
+plt.show()
 #
 # ### ZAD7
-# Z = scipy.cluster.hierarchy.linkage(X_r, 'average')
-# dn = dendrogram(Z)
-# plt.show();
+Z = scipy.cluster.hierarchy.linkage(X_r, 'average')
+dn = dendrogram(Z)
+plt.show();
 
 ### ZAD8
 ### k-means:
@@ -165,7 +165,6 @@ def find_perm(clusters, Y_real, Y_pred):
 #         hull = ConvexHull(points)
 #         plt.plot(points[hull.vertices, 0], points[hull.vertices, 1], color=color)
 
-# simplices zamiast vertices
 
 # plt.subplot(3, 1, 3)
 # correct = [Y[i] == Y_result[i] for i in range(len(Y))]
@@ -258,14 +257,6 @@ gmm_centres = gmm.means_
 # print(gmm_labels)
 # print(gmm_centres)
 
-###
-# ...
-# ward = AgglomerativeClustering(n_clusters=ile_klastrow, linkage='ward').fit(tab)
-
-
-
-
-
 ### ZAD4
 img_quant = np.zeros(tab.shape)
 for i in range(len(kmeans_labels)):
@@ -273,9 +264,9 @@ for i in range(len(kmeans_labels)):
 # print(img_quant)
 
 
-# img_quant_gmm = np.zeros(tab.shape)
-# for i in range(len(gmm_labels)):
-#     img_quant_gmm[i,:] = gmm_centres[gmm_labels[i]]
+img_quant_gmm = np.zeros(tab.shape)
+for i in range(len(gmm_labels)):
+    img_quant_gmm[i,:] = gmm_centres[gmm_labels[i]]
 
 ###ZAD5
 
@@ -297,22 +288,23 @@ for i in range(w):
 ###ZAD6
 
 # print(tab1)
-# plt.subplot(121)
-# plt.imshow(img)
-# plt.subplot(122)
-# plt.imshow(tab1)
-# # plt.show()
+plt.subplot(121)
+plt.imshow(img)
+plt.subplot(122)
+plt.imshow(tab1)
+plt.title("zad6")
+plt.show()
 
 
 ### ZAD7
-# kmeans_blad = np.zeros((w, k))
-# for i in range (w):
-#     for j in range (k):
-#         kmeans_blad[i,j] = metrics.mean_squared_error(img[i,j], tab1[i,j])
-#
-# plt.imshow(kmeans_blad)
-# plt.title("Bład sredniokwadratowy")
-# plt.show()
+kmeans_blad = np.zeros((w, k))
+for i in range (w):
+    for j in range (k):
+        kmeans_blad[i,j] = metrics.mean_squared_error(img[i,j], tab1[i,j])
+
+plt.imshow(kmeans_blad)
+plt.title("Bład sredniokwadratowy")
+plt.show()
 
 
 
@@ -339,7 +331,5 @@ for i in range(len(zad8_wektoryzacja)):
 
 tab1 = quant_kmeans_zad8.reshape(w, k, col)
 plt.imshow(tab1)
+plt.title("zad8")
 plt.show()
-
-
-###ZAD9
